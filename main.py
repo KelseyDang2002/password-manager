@@ -75,7 +75,7 @@ def select_file():
     
     else:
         file_name = "accounts_" + file_name + ".txt"
-        file_path = os.path.join("C:/Users/Kelsey PC/Documents/", file_name)
+        file_path = os.path.join("C:/accounts/", file_name)
         return file_path
 
 ''' Function to file to see if a header already exists '''
