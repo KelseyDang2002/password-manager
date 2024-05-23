@@ -20,120 +20,127 @@ import os
 import pwinput
 
 ''' Function to handle program exits '''
-def program_exit(error):
-    print(f"{error} -> Program exiting...")
+def program_exit(message):
+    print(f"\n\n{message} -> Program exiting...")
     time.sleep(1)
     print("Goodbye.")
     exit(0)
 
 ''' Function to display Password Manager menu '''
 def display_menu():
-    print("\n----- PASSWORD MANAGER MENU -----\n")
-    print("->\t1. Add an account")
-    print("->\t2. View accounts")
-    print("->\t3. Exit program")
-    print("\n---------------------------------\n")
+    print("\n\n__________ PASSWORD MANAGER MENU __________\n")
+    print("\t1. Add an account")
+    print("\t2. View accounts")
+    print("\t3. Exit program")
+    print("\n___________________________________________\n")
 
 ''' Function to select menu option '''
 def menu_select():
-    selected_option = int(input("Select a menu option: "))
-    print(f"You entered option {selected_option}.")
+    selected_option = int(input(">\tSelect a menu option: "))
+    print(f"\nYou entered option {selected_option}.")
     return selected_option
 
 ''' Function to enter account information '''
 def enter_account_info():
-    print("\n----- ADD AN ACCOUNT -----\n")
-    header = input("Name account header: ")
-    email = input("Enter email: ")
-    username = input("Enter username: ")
+    header = input(">\tName the account header: ")
+    email = input(">\tEnter email: ")
+    username = input(">\tEnter username: ")
     # password = pwinput.pwinput(prompt="Enter password: ")
     # password_confirm = pwinput.pwinput(prompt="Confirm password: ")
-    password = input("Enter password: ")
-    password_confirm = input("Confirm password: ")
+    password = input(">\tEnter password: ")
+    password_confirm = input(">\tConfirm password: ")
 
     if password_confirm != password:
-        program_exit("\nPasswords do not match")
+        program_exit("Passwords do not match")
     
     else:
-        print("\nSuccess!")
+        print(f"\nYou entered: {header} {email} {username} {password}")
         return header, email, username, password
 
 ''' Function to display the file options '''
 def display_file_options():
-    print("\n----- ACCOUNT FILE OPTIONS -----\n")
-    print("->\taccounts_csuf.txt")
-    print("->\taccounts_job.txt")
-    print("->\taccounts_software.txt")
-    print("\n--------------------------------\n")
+    print("\n\n---------- ACCOUNT FILE OPTIONS ----------\n")
+    print("\taccounts_csuf.txt")
+    print("\taccounts_job.txt")
+    print("\taccounts_software.txt")
+    print("\n------------------------------------------\n")
 
 ''' Function to select the file to add account entry to '''
 def select_file():
-    try:
-        file_name = input("Enter name of a file to add account to (i.e. csuf, job, software): ")
-        valid_file_names = ["csuf", "job", "software"]
-        
-        if file_name not in valid_file_names:
-            print("\nInvalid file name. Try again.")
-        
-        else:
-            file_name = "accounts_" + file_name + ".txt"
-            file_path = os.path.join("Documents", file_name)
-            print(f"File path: {file_path}")
-            return file_path
+    file_name = input(">\tEnter name of a file to add account to (csuf, job, software): ")
+    valid_file_names = ["csuf", "job", "software"]
     
-    except KeyboardInterrupt:
-        program_exit("\n\nKeyboardInterrupt")
+    if file_name not in valid_file_names:
+        program_exit("Invalid file name")
+    
+    else:
+        file_name = "accounts_" + file_name + ".txt"
+        file_path = os.path.join("C:/Users/Kelsey PC/Documents/", file_name)
+        return file_path
 
-''' Function to read file to see if a header already exists '''
-def read_file(file_path):
-    pass
+''' Function to file to see if a header already exists '''
+def check_header_in_file(file_path, header):
+    header_arr = []
+    file_read = open(file_path, "r")
+
+    for accounts in file_read:
+        header = accounts.strip().split(" ")
+        header_arr.append(header)
+
+    file_read.close()
+
+    if header in header_arr:
+        return False
+    else:
+        return True
 
 ''' Function to store account entry in the file '''
-def store_in_file(file_path):
-    file_path = select_file()
-    file_append = open(file_path, "a")
+def store_in_file(file_path, header, email, username, password):
+    header_is_valid = check_header_in_file(file_path, header)
+
+    if header_is_valid == False:
+        program_exit("Entry denied, account already exists")
+    
+    else:
+        account = header+" "+email+" "+username+" "+password
+        print("\nOverview:")
+        print(f"Account entry: {account}")
+        print(f"File path: {file_path}")
+        # file_path = select_file()
+        # file_append = open(file_path, "a")
+        # file_append.write("{}\n".format(account))
 
 ''' Function TODO '''
-def view_in_file():
+def view_in_file(file_path):
     pass
 
 ''' Function to add an account '''
 def add_account():
-    try:
-        enter_account_info()
-        display_file_options()
-        select_file()
-        store_in_file()
-
-    except KeyboardInterrupt:
-        program_exit("\n\nKeyboardInterrupt")
+    print("\n\n---------- ADD AN ACCOUNT ----------\n")
+    header, email, username, password = enter_account_info()
+    display_file_options()
+    file_path = select_file()
+    store_in_file(file_path, header, email, username, password)
 
 ''' Function to view accounts '''
 def view_accounts():
-    try:
-        print("\n----- VIEW ACCOUNTS -----\n")
-        select_file()
-        view_in_file()
-    
-    except KeyboardInterrupt:
-        program_exit("\n\nKeyboardInterrupt")
+    print("\n\n---------- VIEW ACCOUNTS ----------\n")
+    file_path = select_file()
+    view_in_file(file_path)
 
 ''' Function to navigate Password Manager menu based on selected option '''
 def select_continue(selected_option):
     if selected_option == 1:
         add_account()
-    
     elif selected_option == 2:
         view_accounts()
-   
     elif selected_option == 3:
-        program_exit("\nExit program selected")
-    
+        program_exit("Exit program selected")
     else:
         print("\nInvalid option. Try again.")
 
-''' Function main '''
-def main():
+''' Driver '''
+if __name__ == "__main__":
     while True:
         try:
             display_menu()
@@ -141,8 +148,4 @@ def main():
             select_continue(selected_option)
 
         except KeyboardInterrupt:
-            program_exit("\n\nKeyboardInterrupt")
-
-''' Call main '''
-if __name__ == "__main__":
-    main()
+            program_exit("\nKeyboardInterrupt")
