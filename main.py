@@ -22,15 +22,15 @@ import pwinput
 ''' Function to display Password Manager menu '''
 def display_menu():
     print("\n\n__________ PASSWORD MANAGER MENU __________\n")
-    print("\t1. Add an account")
-    print("\t2. View accounts")
-    print("\t3. Exit program")
+    print("\tadd - Add an account")
+    print("\tview - View accounts")
+    print("\texit - Exit program")
     print("\n___________________________________________\n")
 
 ''' Function to select menu option '''
 def menu_select():
-    selected_option = int(input(">\tSelect a menu option: "))
-    print(f"\nYou entered option {selected_option}.")
+    selected_option = input(">\tSelect a menu option: ")
+    print(f"\nYou entered option '{selected_option}'.")
     return selected_option
 
 ''' Function to enter account information '''
@@ -149,11 +149,11 @@ def program_exit(message):
 
 ''' Function to navigate Password Manager menu based on selected option '''
 def select_continue(selected_option):
-    if selected_option == 1:
+    if selected_option == "add":
         add_account()
-    elif selected_option == 2:
+    elif selected_option == "view":
         view_accounts()
-    elif selected_option == 3:
+    elif selected_option == "exit":
         program_exit("Exit program selected")
     else:
         print("\nInvalid option. Try again.")
