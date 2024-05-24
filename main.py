@@ -8,7 +8,7 @@ Core Features:
     - <email> = email of account
     - <username> = username of account
     - <password> = password of account
-    - Sepatae each entry with an empty line
+    - Separate each entry with an empty line
 2. Edit passwords of existing account?
 3. Salt passwords and hash passwords?
 4. Password generator
@@ -18,13 +18,6 @@ Core Features:
 import time
 import os
 import pwinput
-
-''' Function to handle program exits '''
-def program_exit(message):
-    print(f"\n\n{message} -> Program exiting...")
-    time.sleep(1)
-    print("Goodbye.")
-    exit(0)
 
 ''' Function to display Password Manager menu '''
 def display_menu():
@@ -42,20 +35,39 @@ def menu_select():
 
 ''' Function to enter account information '''
 def enter_account_info():
-    header = input(">\tName the account header: ")
-    email = input(">\tEnter email: ")
-    username = input(">\tEnter username: ")
+    print("Type 'none' if email or username is not applicable.\n")
+    header = input(">\t1. Name the account header: ")
+    if header == "" or header == "none":
+        program_exit("Header cannot be empty or none")
+    
+    email = input(">\t2. Enter email: ")
+    if email == "":
+        program_exit("Email cannot be empty")
+    
+    username = input(">\t3. Enter username: ")
+    if username == "":
+        program_exit("Username cannot be empty")
+    
+    if email == "none" and username == "none":
+        program_exit("Email and username cannot both be none")
+    
     # password = pwinput.pwinput(prompt="Enter password: ")
+    password = input(">\t4. Enter password: ")
+    if password == "":
+        program_exit("Password cannot be empty")
+    
     # password_confirm = pwinput.pwinput(prompt="Confirm password: ")
-    password = input(">\tEnter password: ")
-    password_confirm = input(">\tConfirm password: ")
-
+    password_confirm = input(">\t5. Confirm password: ")
     if password_confirm != password:
         program_exit("Passwords do not match")
     
-    else:
-        print(f"\nYou entered: {header} {email} {username} {password}")
-        return header, email, username, password
+    # print(f"\nYou entered: {header} {email} {username} {password}")
+    print(f"\nYou entered:")
+    print(f"\tHeader:\t\t{header}")
+    print(f"\tEmail:\t\t{email}")
+    print(f"\tUsername:\t{username}")
+    print(f"\tPassword:\t{password}")
+    return header, email, username, password
 
 ''' Function to display the file options '''
 def display_file_options():
@@ -76,6 +88,7 @@ def select_file():
     else:
         file_name = "accounts_" + file_name + ".txt"
         file_path = os.path.join("C:/accounts/", file_name)
+        print(f"\nChosen file path: {file_path}")
         return file_path
 
 ''' Function to file to see if a header already exists '''
@@ -102,13 +115,12 @@ def store_in_file(file_path, header, email, username, password):
         program_exit("Entry denied, account already exists")
     
     else:
-        account = header+" "+email+" "+username+" "+password
-        print("\nOverview:")
+        account = header + " " + email + " " + username + " " + password
         print(f"Account entry: {account}")
-        print(f"File path: {file_path}")
         # file_path = select_file()
         # file_append = open(file_path, "a")
         # file_append.write("{}\n".format(account))
+        # file_append.close()
 
 ''' Function TODO '''
 def view_in_file(file_path):
@@ -127,6 +139,13 @@ def view_accounts():
     print("\n\n---------- VIEW ACCOUNTS ----------\n")
     file_path = select_file()
     view_in_file(file_path)
+    
+''' Function to handle program exits '''
+def program_exit(message):
+    print(f"\n\n{message} -> Program exiting...")
+    time.sleep(1)
+    print("Goodbye.")
+    exit(0)
 
 ''' Function to navigate Password Manager menu based on selected option '''
 def select_continue(selected_option):
