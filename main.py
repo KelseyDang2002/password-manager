@@ -51,12 +51,12 @@ def enter_account_info():
     if email == "none" and username == "none":
         program_exit("Email and username cannot both be none")
     
-    # password = pwinput.pwinput(prompt="Enter password: ")
+    # password = pwinput.pwinput(prompt=">\t4. Enter password: ")
     password = input(">\t4. Enter password: ")
     if password == "":
         program_exit("Password cannot be empty")
     
-    # password_confirm = pwinput.pwinput(prompt="Confirm password: ")
+    # password_confirm = pwinput.pwinput(prompt=">\t5. Confirm password: ")
     password_confirm = input(">\t5. Confirm password: ")
     if password_confirm != password:
         program_exit("Passwords do not match")
@@ -78,8 +78,8 @@ def display_file_options():
     print("\n------------------------------------------\n")
 
 ''' Function to select the file to add account entry to '''
-def select_file():
-    file_name = input(">\tEnter name of a file to add account to (csuf, job, software): ")
+def select_file(message):
+    file_name = input(f">\tEnter name of a file to {message} (csuf, job, software): ")
     valid_file_names = ["csuf", "job", "software"]
     
     if file_name not in valid_file_names:
@@ -89,7 +89,7 @@ def select_file():
         file_name = "accounts_" + file_name + ".txt"
         file_path = os.path.join("C:/accounts/", file_name)
         print(f"\nChosen file path: {file_path}")
-        return file_path
+        return file_name, file_path
 
 ''' Function to file to see if a header already exists '''
 def check_header_in_file(file_path, header):
@@ -97,7 +97,7 @@ def check_header_in_file(file_path, header):
     file_read = open(file_path, "r")
 
     for accounts in file_read:
-        header = accounts.strip().split(" ")
+        header = accounts.strip().split(" ")[0]
         header_arr.append(header)
 
     file_read.close()
@@ -108,37 +108,38 @@ def check_header_in_file(file_path, header):
         return True
 
 ''' Function to store account entry in the file '''
-def store_in_file(file_path, header, email, username, password):
+def store_in_file(file_name, file_path, header, email, username, password):
     header_is_valid = check_header_in_file(file_path, header)
 
     if header_is_valid == False:
-        program_exit("Entry denied, account already exists")
+        program_exit(f"Entry denied, account for {header} already exists")
     
     else:
         account = header + " " + email + " " + username + " " + password
         print(f"Account entry: {account}")
-        # file_path = select_file()
-        # file_append = open(file_path, "a")
-        # file_append.write("{}\n".format(account))
-        # file_append.close()
+        file_append = open(file_path, "a")
+        file_append.write("{}\n".format(account))
+        file_append.close()
+        print(f"\nAccount entry successfully added to '{file_name}'")
 
 ''' Function TODO '''
-def view_in_file(file_path):
+def view_in_file(file_name, file_path):
     pass
 
 ''' Function to add an account '''
 def add_account():
+    display_file_options()
+    file_name, file_path = select_file("add account to")
     print("\n\n---------- ADD AN ACCOUNT ----------\n")
     header, email, username, password = enter_account_info()
-    display_file_options()
-    file_path = select_file()
-    store_in_file(file_path, header, email, username, password)
+    store_in_file(file_name, file_path, header, email, username, password)
 
 ''' Function to view accounts '''
 def view_accounts():
+    display_file_options()
+    file_name, file_path = select_file("view")
     print("\n\n---------- VIEW ACCOUNTS ----------\n")
-    file_path = select_file()
-    view_in_file(file_path)
+    view_in_file(file_name, file_path)
     
 ''' Function to handle program exits '''
 def program_exit(message):
