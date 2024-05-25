@@ -21,7 +21,7 @@ import pwinput
 
 ''' Function to display Password Manager menu '''
 def display_menu():
-    print("\n\n__________ PASSWORD MANAGER MENU __________\n")
+    print("\n\n\n__________ PASSWORD MANAGER MENU __________\n")
     print("\tadd - Add an account")
     print("\tview - View accounts")
     print("\texit - Exit program")
@@ -71,7 +71,7 @@ def enter_account_info():
 
 ''' Function to display the file options '''
 def display_file_options():
-    print("\n\n---------- ACCOUNT FILE OPTIONS ----------\n")
+    print("\n\n\n---------- ACCOUNT FILE OPTIONS ----------\n")
     print("\taccounts_csuf.txt")
     print("\taccounts_job.txt")
     print("\taccounts_software.txt")
@@ -88,7 +88,7 @@ def select_file(message):
     else:
         file_name = "accounts_" + file_name + ".txt"
         file_path = os.path.join("C:/accounts/", file_name)
-        print(f"\nChosen file path: {file_path}")
+        print(f"\nChosen file: {file_name}")
         return file_name, file_path
 
 ''' Function to file to see if a header already exists '''
@@ -97,16 +97,17 @@ def check_header_in_file(file_path, header):
     file_read = open(file_path, "r")
 
     for accounts in file_read:
-        header = accounts.strip().split(" ")[0]
-        header_arr.append(header)
+        account_header = accounts.strip().split(" ")[0]
+        header_arr.append(account_header)
 
     file_read.close()
 
     if header in header_arr:
+        print(header_arr)
         return False
     else:
         return True
-
+    
 ''' Function to store account entry in the file '''
 def store_in_file(file_name, file_path, header, email, username, password):
     header_is_valid = check_header_in_file(file_path, header)
@@ -116,21 +117,29 @@ def store_in_file(file_name, file_path, header, email, username, password):
     
     else:
         account = header + " " + email + " " + username + " " + password
-        print(f"Account entry: {account}")
+        print(f"\nAccount entry: {account}")
         file_append = open(file_path, "a")
         file_append.write("{}\n".format(account))
         file_append.close()
-        print(f"\nAccount entry successfully added to '{file_name}'")
+        print(f"Account entry successfully added to '{file_name}'!")
 
 ''' Function TODO '''
 def view_in_file(file_name, file_path):
-    pass
+    index = 0
+    file_read = open(file_path, "r")
+    accounts = file_read.readlines()
+
+    for account in accounts:
+        index += 1
+        print("{}. {}\n".format(index, account.strip()))
+        
+    file_read.close()
 
 ''' Function to add an account '''
 def add_account():
     display_file_options()
     file_name, file_path = select_file("add account to")
-    print("\n\n---------- ADD AN ACCOUNT ----------\n")
+    print(f"\n\n\n---------- ADDING ACCOUNT TO '{file_name}' ----------\n")
     header, email, username, password = enter_account_info()
     store_in_file(file_name, file_path, header, email, username, password)
 
@@ -138,7 +147,8 @@ def add_account():
 def view_accounts():
     display_file_options()
     file_name, file_path = select_file("view")
-    print("\n\n---------- VIEW ACCOUNTS ----------\n")
+    print(f"\n\n\n---------- VIEWING ACCOUNTS IN '{file_name}' ----------\n")
+    print("Format: [header] [email] [username] [password]\n")
     view_in_file(file_name, file_path)
     
 ''' Function to handle program exits '''
