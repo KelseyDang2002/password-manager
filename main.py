@@ -1,22 +1,7 @@
-'''
-Password Manager Structure
-
-Core Features:
-1. Add account entry to txt file
-    - Account Entry Format: <header> : <email> <username> <password>
-    - <header> = header name of the account (i.e. Gmail Account)
-    - <email> = email of account
-    - <username> = username of account
-    - <password> = password of account
-    - Separate each entry with an empty line
-2. Edit passwords of existing account?
-3. Salt passwords and hash passwords?
-4. Password generator
-    - Arguments: keywords
-'''
-
 import time
 import os
+import string
+import random
 import pwinput
 
 ''' Function to display Password Manager menu '''
@@ -33,9 +18,17 @@ def menu_select():
     print(f"\nYou entered option '{selected_option}'.")
     return selected_option
 
+''' Function to generate a random password given the password length '''
+def generate_password():
+    password_length = int(input(">\tEnter desired length of password (int): "))
+    char_set =  string.digits + string.ascii_letters + string.punctuation
+    random_password = ''.join(random.sample(char_set*password_length, password_length))
+    return random_password
+
 ''' Function to enter account information '''
 def enter_account_info():
-    print("Type 'none' if email or username is not applicable.\n")
+    print("Type 'none' if email or username is not applicable.")
+    print("To generate a random password, type 'gen()' for both password & password confirm.\n")
     header = input(">\t1. Name the account header: ")
     if header == "" or header == "none":
         program_exit("Header cannot be empty or none")
@@ -60,9 +53,12 @@ def enter_account_info():
     password_confirm = input(">\t5. Confirm password: ")
     if password_confirm != password:
         program_exit("Passwords do not match")
+
+    if password == "gen()" and password_confirm == "gen()":
+        password = generate_password()
+        print(f"\nGenerated password: {password}")
     
-    # print(f"\nYou entered: {header} {email} {username} {password}")
-    print(f"\nYou entered:")
+    print(f"\nSummary:")
     print(f"\tHeader:\t\t{header}")
     print(f"\tEmail:\t\t{email}")
     print(f"\tUsername:\t{username}")
@@ -123,7 +119,7 @@ def store_in_file(file_name, file_path, header, email, username, password):
         file_append.close()
         print(f"Account entry successfully added to '{file_name}'!")
 
-''' Function TODO '''
+''' Function to view accounts in specified file '''
 def view_in_file(file_name, file_path):
     index = 0
     file_read = open(file_path, "r")
