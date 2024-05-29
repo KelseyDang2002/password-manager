@@ -20,8 +20,13 @@ def menu_select():
 
 ''' Function to generate a random password given the password length '''
 def generate_password():
+    char_set = string.digits + string.ascii_letters
     password_length = int(input(">\tEnter desired length of password (int): "))
-    char_set =  string.digits + string.ascii_letters + string.punctuation
+    toggle_punct = input(">\tInclude special characters in password? (y/n): ").upper()
+    
+    if toggle_punct == 'Y':
+        char_set += string.punctuation
+        
     random_password = ''.join(random.sample(char_set*password_length, password_length))
     return random_password
 
