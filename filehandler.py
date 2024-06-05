@@ -23,7 +23,7 @@ def select_file(message):
         print(f"\nChosen file: {file_name}")
         return file_name, file_path
 
-''' Function to file to see if a header already exists '''
+''' Function to see if a header already exists in specified file '''
 def check_header_in_file(file_path, header):
     header_arr = []
     file_read = open(file_path, "r")
