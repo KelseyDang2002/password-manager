@@ -4,12 +4,14 @@ from exithandler import program_exit
 
 ''' Function to display Password Manager menu '''
 def display_menu():
-    print("\n\n\n__________ PASSWORD MANAGER MENU __________")
-    print("|                                         |")
-    print("|\tadd - Add an account              |")
-    print("|\tview - View accounts              |")
-    print("|\texit - Exit program               |")
-    print("___________________________________________\n")
+    print("\n\n")
+    menu_title = " PASSWORD MANAGER MENU "
+    print(menu_title.center(len(menu_title) + 20, "_"))
+    print("{:42}|".format("|"))
+    print("{:36}|".format("|\tadd - Add an account"))
+    print("{:36}|".format("|\tview - View accounts"))
+    print("{:36}|".format("|\texit - Exit program"))
+    print("_" * 43, "\n")
 
 ''' Function to select menu option '''
 def menu_select():
