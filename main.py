@@ -6,12 +6,13 @@ from exithandler import program_exit
 def display_menu():
     print("\n\n")
     menu_title = " PASSWORD MANAGER MENU "
-    print(menu_title.center(len(menu_title) + 20, "_"))
+    line_length = len(menu_title) + 20
+    print(menu_title.center(line_length, "_"))
     print("{:42}|".format("|"))
     print("{:36}|".format("|\tadd - Add an account"))
     print("{:36}|".format("|\tview - View accounts"))
     print("{:36}|".format("|\texit - Exit program"))
-    print("_" * 43, "\n")
+    print("_" * line_length, "\n")
 
 ''' Function to select menu option '''
 def menu_select():

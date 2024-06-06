@@ -5,13 +5,14 @@ from exithandler import program_exit
 def display_file_options():
     print("\n\n")
     menu_title = " ACCOUNT FILE OPTIONS "
-    print(menu_title.center(len(menu_title) + 20, "-"))
+    line_length = len(menu_title) + 20
+    print(menu_title.center(line_length, "-"))
     print("")
     print("\tcsuf - accounts_csuf.txt")
     print("\tjob - accounts_job.txt")
     print("\tsoftware - accounts_software.txt")
     print("")
-    print("-" * 42, "\n")
+    print("-" * line_length, "\n")
 
 ''' Function to select the file to add account entry to '''
 def select_file(message):
