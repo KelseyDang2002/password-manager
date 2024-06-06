@@ -15,10 +15,7 @@ def display_menu():
 def menu_select():
     selected_option = input(">\tSelect a menu option: ")
     print(f"\nYou entered option '{selected_option}'.")
-    return selected_option
-
-''' Function to navigate Password Manager menu based on selected option '''
-def select_continue(selected_option):
+    
     if selected_option == "add":
         add_account()
     elif selected_option == "view":
@@ -33,8 +30,7 @@ if __name__ == "__main__":
     while True:
         try:
             display_menu()
-            selected_option = menu_select()
-            select_continue(selected_option)
+            menu_select()
 
         except KeyboardInterrupt:
             program_exit("\nKeyboardInterrupt")
