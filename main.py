@@ -4,7 +4,7 @@ from exithandler import program_exit
 
 ''' Function to display Password Manager menu '''
 def display_menu():
-    print("\n\n")
+    print("\n\n\n")
     menu_title = " PASSWORD MANAGER MENU "
     line_length = len(menu_title) + 20
     print(menu_title.center(line_length, "_"))

@@ -3,7 +3,7 @@ from exithandler import program_exit
 
 ''' Function to display the file options '''
 def display_file_options():
-    print("\n\n")
+    print("\n\n\n")
     menu_title = " ACCOUNT FILE OPTIONS "
     line_length = len(menu_title) + 20
     print(menu_title.center(line_length, "-"))
