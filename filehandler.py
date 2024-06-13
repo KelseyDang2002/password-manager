@@ -67,6 +67,6 @@ def view_in_file(file_name, file_path):
 
     for account in accounts:
         index += 1
-        print("{}. {}\n".format(index, account.strip()))
+        print("{}.\t{}\n".format(index, account.strip()))
         
     file_read.close()
